@@ -8,6 +8,7 @@ import {
   genericErrorHandler,
 } from "./errorHandlers.js";
 import blogPostRouter from "./apis/blog/index.js";
+import commentRouter from "./apis/comment/index.js";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -20,6 +21,7 @@ server.use(express.json());
 // ******************************************************* ENDPOINTS ***********************************************
 
 server.use("/blogposts", blogPostRouter);
+server.use("/comments", commentRouter);
 
 // ***************************************************** ERROR HANDLERS ********************************************
 

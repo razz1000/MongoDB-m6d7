@@ -20,6 +20,7 @@ const blogPostSchema = new Schema(
       },
     ],
     content: { type: String },
+    comments: [{ text: String }],
   },
   { timestamps: true }
 );
