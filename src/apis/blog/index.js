@@ -113,16 +113,18 @@ blogPostRouter.delete("/:blogpostId", async (req, res, next) => {
 blogPostRouter.post("/:blogpostId", async (req, res, next) => {
   try {
     const comment = await commentModel.findById(req.body.commentId, { _id: 0 });
+    const likes2 = blogpost.likes.length;
     console.log("COMMENT", comment);
     if (comment) {
       const commentToInsert = {
         ...comment.toObject(),
         commentDate: new Date(),
       };
+
       console.log("COMMENT TO INSERT", commentToInsert);
       const updatedblogPost = await blogPostModel.findByIdAndUpdate(
         req.params.blogpostId,
-        { $push: { comments: commentToInsert } },
+        { $push: { comments: commentToInsert /*  blogpostLikes: likes2 */ } },
         { new: true, runValidators: true }
       );
       console.log("UPDATED BLOG POST", updatedblogPost);
