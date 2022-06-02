@@ -4,6 +4,8 @@ const { Schema, model } = mongoose;
 
 const blogPostSchema = new Schema(
   {
+    authors: [{ type: Schema.Types.ObjectId, ref: "Author" }],
+    likes: [{ type: Schema.Types.ObjectId, ref: "Likes" }],
     category: { type: String, required: true },
     title: { type: String, required: true },
     cover: { type: String, required: true },
@@ -13,12 +15,7 @@ const blogPostSchema = new Schema(
         unit: { type: String },
       },
     ],
-    author: [
-      {
-        name: { type: String },
-        avatar: { type: String },
-      },
-    ],
+
     content: { type: String },
     comments: [{ text: String }],
   },

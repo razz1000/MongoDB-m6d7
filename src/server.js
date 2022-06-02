@@ -9,6 +9,9 @@ import {
 } from "./errorHandlers.js";
 import blogPostRouter from "./apis/blog/index.js";
 import commentRouter from "./apis/comment/index.js";
+import authorsRouter from "./apis/authors/index.js";
+import usersRouter from "./apis/users/index.js";
+import likesRouter from "./apis/likes/index.js";
 
 const server = express();
 const port = process.env.PORT || 3001;
@@ -22,6 +25,9 @@ server.use(express.json());
 
 server.use("/blogposts", blogPostRouter);
 server.use("/comments", commentRouter);
+server.use("/authors", authorsRouter);
+server.use("/users", usersRouter);
+server.use("/likes", likesRouter);
 
 // ***************************************************** ERROR HANDLERS ********************************************
 

@@ -2,6 +2,7 @@ import express from "express";
 import createError from "http-errors";
 import blogPostModel from "./model.js";
 import commentModel from "../comment/model.js";
+import likeModel from "../likes/model.js";
 import q2m from "query-to-mongo";
 
 const blogPostRouter = express.Router();
@@ -26,7 +27,8 @@ blogPostRouter.get("/", async (req, res, next) => {
       .find(mongoQuery.criteria, mongoQuery.options.fields)
       .skip(mongoQuery.options.skip)
       .limit(mongoQuery.options.limit)
-      .sort(mongoQuery.options.sort);
+      .sort(mongoQuery.options.sort)
+      .populate({ path: "authors", select: "firstName lastName" });
     res.send({
       links: mongoQuery.links("http://localhost:3001/blogposts", total),
       total,
@@ -40,7 +42,24 @@ blogPostRouter.get("/", async (req, res, next) => {
 
 blogPostRouter.get("/:blogpostId", async (req, res, next) => {
   try {
-    const blogpost = await blogPostModel.findById(req.params.blogpostId);
+    const blogpost = await blogPostModel
+      .findById(req.params.blogpostId)
+      .populate({ path: "authors", select: "firstName lastName" });
+
+    /*     const likes = await blogPostModel.findOne(req.body.likes); */
+    const likes2 = blogpost.likes.length;
+
+    console.log("BLOGPOST LIKES:", likes2);
+
+    /* const numberOfLikes = [];
+     
+    likes2.forEach((like, index) => {
+      if (like.indexOf(like) === index) {
+        uniqueCount += 1;
+        numberOfLikes.push(uniqueCount);
+      }
+    }); 
+    console.log("COUNT:", uniqueCount); */
 
     if (blogpost) {
       res.send(blogpost);
